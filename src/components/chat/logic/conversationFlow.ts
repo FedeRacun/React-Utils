@@ -2,27 +2,26 @@ import { Step } from "../interfaces/step.interface";
 
 export const conversationFlow: Step[] = [
   {
-    id: 'fullName',
-    question: 'Hola!, gracias por contactarnos.<br/> ¿Podría indicarnos su nombre y apellido, por favor?',
-    validation: (input) => input.length > 3,
-    errorMessage: 'El nombre debe tener al menos 3 caracteres',
-  },
-  {
-    id: 'email',
+    id: "fullName",
     question:
-      'Gracias ¿qué correo podríamos enviarle información más detallada?',
+      "Hola!, gracias por contactarnos.<br/> ¿Podría indicarnos su nombre y apellido, por favor?",
+    validation: (input) => input.length > 3,
+    errorMessage: "El nombre debe tener al menos 3 caracteres",
+  },
+  {
+    id: "email",
+    question: "Gracias ¿qué correo podríamos enviarle información más detallada?",
     validation: (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input),
-    errorMessage: 'Por favor ingrese un correo electrónico válido.',
+    errorMessage: "Por favor ingrese un correo electrónico válido.",
   },
   {
-    id: 'cellphone',
-    question: '¿Tiene un número de celular al cual nos podamos comunicar?',
+    id: "cellphone",
+    question: "¿Tiene un número de celular al cual nos podamos comunicar?",
     validation: (input) => /^[0-9]{8,15}$/.test(input),
-    errorMessage:
-      'Por favor ingrese un número de celular válido (solo números).',
+    errorMessage: "Por favor ingrese un número de celular válido (solo números).",
   },
   {
-    id: 'branch',
+    id: "branch",
     question: `¿Qué sucursal quiere ser atendido?  <br/>
       0 - Vicente Lopez <br/>
       1 - Alvarez Thomas <br/>
@@ -33,20 +32,20 @@ export const conversationFlow: Step[] = [
       6 - Acassuso <br/>
       7 - Belgrano`,
     validation: (input) => parseInt(input) <= 7,
-    errorMessage: 'Por favor ingrese una sucursal valida',
+    errorMessage: "Por favor ingrese una sucursal valida",
   },
   {
-    id: 'model',
+    id: "model",
     question: `¿Qué modelo quiere? <br/>
       1 - Nuevo 208 <br/>
       2 - Partner Confort <br/>
       3 - 2008`,
     validation: (input) => parseInt(input) <= 3,
-    errorMessage: 'Por favor ingrese un modelo valido',
+    errorMessage: "Por favor ingrese un modelo valido",
   },
   {
-    id: 'farewell',
+    id: "farewell",
     question:
-      'Le agradecemos mucho por su tiempo. Un asesor se pondrá en contacto con usted lo antes posible. ¡Que tenga un excelente día!',
+      "Le agradecemos mucho por su tiempo. Un asesor se pondrá en contacto con usted lo antes posible. ¡Que tenga un excelente día!",
   },
 ];

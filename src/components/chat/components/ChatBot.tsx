@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
-import { ChatBubble } from './ChatBubble';
-import { ChatInput } from './ChatInput';
-import styles from './ChatBot.module.css';
-import { isValidInput } from '../logic/validationUtils';
-import { Step } from '../interfaces/step.interface';
+import { useState, useEffect, useRef } from "react";
+import { ChatBubble } from "./ChatBubble";
+import { ChatInput } from "./ChatInput";
+import styles from "./ChatBot.module.css";
+import { isValidInput } from "../logic/validationUtils";
+import { Step } from "../interfaces/step.interface";
 
 interface Message {
-  sender: 'bot' | 'user';
+  sender: "bot" | "user";
   text: string;
 }
 
 interface ChatBotProps {
   getUserData: (data: Record<string, string>) => void;
-  conversationFlow: Step[]
+  conversationFlow: Step[];
 }
 export function ChatBot({ getUserData, conversationFlow }: ChatBotProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -34,7 +34,7 @@ export function ChatBot({ getUserData, conversationFlow }: ChatBotProps) {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
     scrollToBottom();
@@ -44,27 +44,26 @@ export function ChatBot({ getUserData, conversationFlow }: ChatBotProps) {
     if (stepIndex < conversationFlow.length) {
       const currentStep = conversationFlow[stepIndex];
       const timeout = setTimeout(() => {
-        addMessage('bot', currentStep.question);
+        addMessage("bot", currentStep.question);
       }, 500);
       return () => clearTimeout(timeout);
     }
   }, [stepIndex]);
 
-  const addMessage = (sender: 'bot' | 'user', text: string) => {
+  const addMessage = (sender: "bot" | "user", text: string) => {
     setMessages((prev) => [...prev, { sender, text }]);
   };
 
   const handleUserInput = (text: string) => {
     const currentStep = conversationFlow[stepIndex];
 
-    addMessage('user', text);
+    addMessage("user", text);
     // Validar la entrada del usuario
     if (!isValidInput(text, currentStep)) {
       setTimeout(() => {
         addMessage(
-          'bot',
-          currentStep.errorMessage ||
-          'Entrada inválida, por favor intente nuevamente.'
+          "bot",
+          currentStep.errorMessage || "Entrada inválida, por favor intente nuevamente."
         );
       }, 500);
       return;
@@ -81,10 +80,14 @@ export function ChatBot({ getUserData, conversationFlow }: ChatBotProps) {
     <>
       <div className={styles.chatbotContainer}>
         <button className={styles.toggleButton} onClick={toggleChat}>
-          {isOpen ? <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Asistente virutal</span>
-            <div>X</div></div> :
-            'Abrir Chat'}
+          {isOpen ? (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>Asistente virutal</span>
+              <div>X</div>
+            </div>
+          ) : (
+            "Abrir Chat"
+          )}
         </button>
 
         {isOpen && (
@@ -95,12 +98,10 @@ export function ChatBot({ getUserData, conversationFlow }: ChatBotProps) {
               ))}
               <div ref={messagesEndRef} />
             </div>
-            {stepIndex < lastStepIndex && (
-              <ChatInput onSend={handleUserInput} />
-            )}
+            {stepIndex < lastStepIndex && <ChatInput onSend={handleUserInput} />}
           </div>
         )}
       </div>
     </>
   );
-};
+}

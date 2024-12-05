@@ -1,9 +1,9 @@
 type Task<T> = () => Promise<T>;
 
 export function throttlePromises<T>(tasks: Task<T>[], limit: number): Promise<T[]> {
-  let active = 0;                       // Cantidad de promesas activas
-  let results: (T | undefined)[] = [];   // Array para almacenar resultados
-  let taskIndex = 0;                     // Índice de la próxima tarea a ejecutar
+  let active = 0; // Cantidad de promesas activas
+  let results: (T | undefined)[] = []; // Array para almacenar resultados
+  let taskIndex = 0; // Índice de la próxima tarea a ejecutar
 
   return new Promise<T[]>((resolve) => {
     const nextTask = () => {
@@ -15,14 +15,14 @@ export function throttlePromises<T>(tasks: Task<T>[], limit: number): Promise<T[
         return;
       }
 
-      const index = taskIndex++;  // Obtenemos el índice actual y lo incrementamos
-      active++;                   // Incrementamos la cantidad de tareas activas
+      const index = taskIndex++; // Obtenemos el índice actual y lo incrementamos
+      active++; // Incrementamos la cantidad de tareas activas
 
       tasks[index]()
-        .then(result => results[index] = result) // Guardamos el resultado
+        .then((result) => (results[index] = result)) // Guardamos el resultado
         .finally(() => {
-          active--;  // Reducimos el conteo de tareas activas
-          nextTask();  // Ejecutamos la siguiente tarea
+          active--; // Reducimos el conteo de tareas activas
+          nextTask(); // Ejecutamos la siguiente tarea
         });
     };
 

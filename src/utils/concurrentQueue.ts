@@ -1,9 +1,9 @@
 type Task<T> = () => Promise<T>;
 
 export class ConcurrentQueue<T> {
-  private queue: (() => void)[] = [];  // Cola de tareas pendientes
-  private activeCount: number = 0;     // Número de tareas activas
-  private concurrencyLimit: number;    // Límite de concurrencia
+  private queue: (() => void)[] = []; // Cola de tareas pendientes
+  private activeCount: number = 0; // Número de tareas activas
+  private concurrencyLimit: number; // Límite de concurrencia
 
   constructor(concurrencyLimit: number) {
     this.concurrencyLimit = concurrencyLimit;
@@ -16,8 +16,8 @@ export class ConcurrentQueue<T> {
         if (this.activeCount < this.concurrencyLimit) {
           this.activeCount++;
           task()
-            .then(resolve)   // Resolución de la tarea
-            .catch(reject)   // Manejo de errores
+            .then(resolve) // Resolución de la tarea
+            .catch(reject) // Manejo de errores
             .finally(() => {
               this.activeCount--;
               this.next(); // Ejecuta la siguiente tarea en la cola
